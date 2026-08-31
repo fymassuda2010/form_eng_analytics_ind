@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: adventure_works
+    catalog: fea_academy
+    schema: adventure_works
+    tables:
+      - name: production_product
+        description: "Raw product table from Adventure Works."
+        columns:
+          - name: productid
+            tests:
+              - not_null
+              - unique

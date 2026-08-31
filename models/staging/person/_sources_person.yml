@@ -1,0 +1,62 @@
+version: 2
+
+sources:
+  - name: adventure_works
+    catalog: fea_academy
+    schema: adventure_works
+    tables:
+      - name: person_person
+        description: "Raw person table from Adventure Works."
+        columns:
+          - name: businessentityid
+            tests:
+              - not_null
+              - unique
+      - name: person_businessentity
+        description: "Raw business entity table from Adventure Works."
+        columns:
+          - name: businessentityid
+            tests:
+              - not_null
+              - unique
+      - name: person_address
+        description: "Raw address table from Adventure Works."
+        columns:
+          - name: addressid
+            tests:
+              - not_null
+              - unique
+          - name: stateprovinceid
+            tests:
+              - not_null
+
+      - name: person_stateprovince
+        description: "Raw state/province table from Adventure Works."
+        columns:
+          - name: stateprovinceid
+            tests:
+              - not_null
+              - unique
+          - name: countryregioncode
+            tests:
+              - not_null
+
+      - name: person_countryregion
+        description: "Raw country/region table from Adventure Works."
+        columns:
+          - name: countryregioncode
+            tests:
+              - unique
+
+      - name: person_businessentityaddress
+        description: "Raw bridge table between business entity and address."
+        columns:
+          - name: addressid
+            tests:
+              - not_null
+          - name: businessentityid
+            tests:
+              - not_null
+          - name: addresstypeid
+            tests:
+              - not_null

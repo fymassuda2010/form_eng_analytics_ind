@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: stg_person_country_region
+    columns:
+      - name: country_region_code
+        tests:
+          - not_null
+          - unique

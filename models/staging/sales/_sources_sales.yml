@@ -1,0 +1,66 @@
+version: 2
+
+sources:
+  - name: adventure_works
+    catalog: fea_academy
+    schema: adventure_works
+    tables:
+      - name: sales_salesorderheader
+        description: "Raw sales order header table from Adventure Works."
+        columns:
+          - name: salesorderid
+            tests:
+              - not_null
+              - unique
+
+      - name: sales_customer
+        description: "Raw customer table from Adventure Works."
+        columns:
+          - name: customerid
+            tests:
+              - not_null
+              - unique
+
+      - name: sales_salesterritory
+        description: "Raw sales territory table from Adventure Works."
+        columns:
+          - name: territoryid
+            tests:
+              - not_null
+              - unique
+
+      - name: sales_personcreditcard
+        description: "Raw bridge table between person and credit card."
+        columns:
+          - name: creditcardid
+            tests:
+              - not_null
+              - unique
+
+      - name: sales_salesorderheadersalesreason
+        description: "Raw bridge table between sales order header and sales reason."
+        columns:
+          - name: salesorderid
+            tests:
+              - not_null
+          - name: salesreasonid
+            tests:
+              - not_null
+
+      - name: sales_salesreason
+        description: "Raw sales reason table from Adventure Works."
+        columns:
+          - name: salesreasonid
+            tests:
+              - not_null
+              - unique
+
+      - name: sales_salesorderdetail
+        description: "Raw sales order detail table from Adventure Works."
+        columns:
+          - name: salesorderid
+            tests:
+              - not_null
+          - name: salesorderdetailid
+            tests:
+              - not_null
