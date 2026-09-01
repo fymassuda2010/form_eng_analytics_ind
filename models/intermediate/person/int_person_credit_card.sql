@@ -1,8 +1,8 @@
 -- grain: one row per business_entity_id
 with
-    person_credit_card as (select * from {{ ref("stg_person_credit_card") }}),
+    person_credit_card as (select * from {{ ref("stg_person__credit_card") }}),
 
-    credit_card as (select * from {{ ref("stg_credit_card") }}),
+    credit_card as (select * from {{ ref("stg_sales__credit_card") }}),
 
     joined as (
 

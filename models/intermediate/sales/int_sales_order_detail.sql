@@ -1,8 +1,8 @@
 -- grain: one row per sales_order_detail_id_pk
 with
-    sales_order_detail as (select * from {{ ref("stg_sales_sales_order_detail") }}),
+    sales_order_detail as (select * from {{ ref("stg_sales__sales_order_detail") }}),
 
-    sales_order_header as (select * from {{ ref("stg_sales_order_header") }}),
+    sales_order_header as (select * from {{ ref("stg_sales__order_header") }}),
 
     joined as (
 

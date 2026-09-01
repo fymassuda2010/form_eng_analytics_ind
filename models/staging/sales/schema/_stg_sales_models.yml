@@ -1,0 +1,254 @@
+version: 2
+
+models:
+
+  - name: stg_sales_customer
+    description: >
+      Staging model for Adventure Works sales customers. Renames source columns
+      and standardizes customer-related identifiers.
+    columns:
+      - name: customer_id
+        description: Primary identifier for the customer.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: person_id
+        description: Identifier of the person associated with the customer.
+
+      - name: store_id
+        description: Identifier of the store associated with the customer.
+
+      - name: territory_id
+        description: Identifier of the sales territory associated with the customer.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_sales_territory')
+                field: territory_id
+
+      - name: modified_date
+        description: Timestamp of the last modification in the source system.
+
+
+  - name: stg_sales_order_header
+    description: >
+      Staging model for sales order headers. Contains one row per sales order,
+      with order attributes, foreign keys, dates, and order-level financial metrics.
+    columns:
+      - name: sales_order_id
+        description: Primary identifier for the sales order.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: revision_number
+        description: Revision number of the sales order.
+
+      - name: order_date
+        description: Date on which the sales order was created.
+        data_tests:
+          - not_null
+
+      - name: due_date
+        description: Date on which the sales order is due.
+
+      - name: ship_date
+        description: Date on which the sales order was shipped.
+
+      - name: sales_order_status
+        description: Status code of the sales order.
+
+      - name: online_order_flag
+        description: Indicates whether the order was placed online.
+
+      - name: purchase_order_number
+        description: Purchase order number associated with the sale.
+
+      - name: account_number
+        description: Account number associated with the sales order.
+
+      - name: customer_id
+        description: Identifier of the customer who placed the order.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_sales_customer')
+                field: customer_id
+
+      - name: sales_person_id
+        description: Identifier of the salesperson associated with the order.
+
+      - name: territory_id
+        description: Identifier of the sales territory associated with the order.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_sales_territory')
+                field: territory_id
+
+      - name: bill_to_address_id
+        description: Identifier of the billing address.
+
+      - name: ship_to_address_id
+        description: Identifier of the shipping address.
+
+      - name: ship_method_id
+        description: Identifier of the shipping method.
+
+      - name: credit_card_id
+        description: Identifier of the credit card used for the order.
+
+      - name: currency_rate_id
+        description: Identifier of the currency exchange rate associated with the order.
+
+      - name: credit_card_approval_code
+        description: Credit card approval code returned for the transaction.
+
+      - name: subtotal_amount
+        description: Order subtotal before taxes and freight.
+
+      - name: tax_amount
+        description: Tax amount charged on the order.
+
+      - name: freight_amount
+        description: Freight amount charged on the order.
+
+      - name: total_due_amount
+        description: Total amount due for the sales order.
+
+
+  - name: stg_sales_sales_order_detail
+    description: >
+      Staging model for sales order line items. Contains product, quantity,
+      price, discount, and tracking information for each sales order detail row.
+    columns:
+      - name: sales_order_detail_id_pk
+        description: Primary identifier for the sales order detail row.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: sales_order_id
+        description: Identifier of the parent sales order.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_sales_order_header')
+                field: sales_order_id
+
+      - name: carrier_tracking_number
+        description: Carrier tracking number associated with the order item.
+
+      - name: order_qty
+        description: Quantity ordered for the product.
+        data_tests:
+          - not_null
+
+      - name: product_id
+        description: Identifier of the product sold.
+        data_tests:
+          - not_null
+
+      - name: special_offer_id
+        description: Identifier of the special offer applied to the order item.
+
+      - name: unit_price
+        description: Unit price of the product at the time of sale.
+        data_tests:
+          - not_null
+
+      - name: unit_price_discount
+        description: Discount percentage applied to the unit price.
+
+      - name: modified_date
+        description: Timestamp of the last modification in the source system.
+
+
+  - name: stg_sales_sales_order_header_sales_reason
+    description: >
+      Staging bridge model linking sales orders to their sales reasons.
+      A sales order may be associated with more than one sales reason.
+    columns:
+      - name: sales_order_id
+        description: Identifier of the sales order.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_sales_order_header')
+                field: sales_order_id
+
+      - name: sales_reason_id
+        description: Identifier of the sales reason associated with the order.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_sales_sales_reason')
+                field: sales_reason_id
+
+      - name: modified_date
+        description: Timestamp of the last modification in the source system.
+
+
+  - name: stg_sales_sales_reason
+    description: >
+      Staging model containing the available sales reasons and their respective types.
+    columns:
+      - name: sales_reason_id
+        description: Primary identifier for the sales reason.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: sales_reason_name
+        description: Name of the sales reason.
+        data_tests:
+          - not_null
+
+      - name: sales_reason_type
+        description: Type or category of the sales reason.
+
+      - name: modified_date
+        description: Timestamp of the last modification in the source system.
+
+
+  - name: stg_sales_territory
+    description: >
+      Staging model for sales territories, including geographic attributes
+      and year-to-date and prior-year sales and cost amounts.
+    columns:
+      - name: territory_id
+        description: Primary identifier for the sales territory.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: territory_name
+        description: Name of the sales territory.
+        data_tests:
+          - not_null
+
+      - name: country_region_code
+        description: Country or region code associated with the territory.
+
+      - name: territory_group
+        description: Geographic group to which the territory belongs.
+
+      - name: sales_ytd_amount
+        description: Year-to-date sales amount for the territory.
+
+      - name: sales_last_year_amount
+        description: Sales amount for the territory in the previous year.
+
+      - name: cost_ytd_amount
+        description: Year-to-date cost amount for the territory.
+
+      - name: cost_last_year_amount
+        description: Cost amount for the territory in the previous year.
+
+      - name: modified_date
+        description: Timestamp of the last modification in the source system.

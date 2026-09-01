@@ -1,11 +1,11 @@
 with
     sales_order_header_sales_reason as (
 
-        select * from {{ ref("stg_sales_sales_order_header_sales_reason") }}
+        select * from {{ ref("stg_sales__sales_order_header_sales_reason") }}
 
     ),
 
-    sales_reason as (select * from {{ ref("stg_sales_sales_reason") }}),
+    sales_reason as (select * from {{ ref("stg_sales__sales_reason") }}),
 
     joined as (
 

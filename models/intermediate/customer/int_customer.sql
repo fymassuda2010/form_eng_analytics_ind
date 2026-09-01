@@ -25,7 +25,7 @@ joined as (
         -- customer identifiers
         c.customer_id,
         c.person_id,
-        c.storeid as store_id,
+        c.store_id,
         c.territory_id as customer_territory_id,
 
         -- person identifiers
