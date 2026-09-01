@@ -1,0 +1,240 @@
+version: 2
+
+models:
+
+  - name: stg_business_entity
+    description: >
+      Staging model for Adventure Works business entities. Standardizes the
+      business entity identifier and source metadata fields.
+    columns:
+      - name: business_entity_id
+        description: Primary identifier for the business entity.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: row_guid
+        description: Source system row GUID.
+
+      - name: modified_date
+        description: Timestamp of the last modification in the source system.
+
+
+  - name: stg_person_address
+    description: >
+      Staging model for person addresses. Contains address attributes and the
+      state or province identifier associated with each address.
+    columns:
+      - name: address_id
+        description: Primary identifier for the address.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: address_line_1
+        description: First line of the street address.
+
+      - name: address_line_2
+        description: Second line of the street address, when available.
+
+      - name: city
+        description: City associated with the address.
+        data_tests:
+          - not_null
+
+      - name: state_province_id
+        description: Identifier of the state or province associated with the address.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_person_state_province')
+                field: state_province_id
+
+      - name: postal_code
+        description: Postal code associated with the address.
+
+      - name: modified_date
+        description: Timestamp of the last modification in the source system.
+
+
+  - name: stg_person_business_entity_address
+    description: >
+      Staging association model linking business entities to addresses and
+      address types. The model can contain multiple addresses for the same
+      business entity.
+    columns:
+      - name: address_id
+        description: Identifier of the address associated with the business entity.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_person_address')
+                field: address_id
+
+      - name: business_entity_id
+        description: Identifier of the business entity associated with the address.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_business_entity')
+                field: business_entity_id
+
+      - name: address_type_id
+        description: Identifier describing the type of address association.
+        data_tests:
+          - not_null
+
+      - name: modified_date
+        description: Timestamp of the last modification in the source system.
+
+
+  - name: stg_person_country_region
+    description: >
+      Staging model for countries and regions. Standardizes the country or region
+      code and handles the source record for Namibia when its code is null.
+    columns:
+      - name: country_region_code
+        description: Primary code identifying the country or region.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: country_region_name
+        description: Name of the country or region.
+        data_tests:
+          - not_null
+
+      - name: modified_date
+        description: Timestamp of the last modification in the source system.
+
+
+  - name: stg_person_credit_card
+    description: >
+      Staging association model linking business entities to credit cards.
+      A business entity may be associated with one or more credit cards.
+    columns:
+      - name: business_entity_id
+        description: Identifier of the business entity associated with the credit card.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_business_entity')
+                field: business_entity_id
+
+      - name: credit_card_id
+        description: Identifier of the credit card associated with the business entity.
+        data_tests:
+          - not_null
+
+      - name: modified_date
+        description: Timestamp of the last modification in the source system.
+
+
+  - name: stg_person_person
+    description: >
+      Staging model for people registered in Adventure Works, including names,
+      person type, promotion preferences, contact information, and source metadata.
+    columns:
+      - name: business_entity_id
+        description: Primary identifier for the person and corresponding business entity.
+        data_tests:
+          - not_null
+          - unique
+          - relationships:
+              arguments:
+                to: ref('stg_business_entity')
+                field: business_entity_id
+
+      - name: person_type
+        description: Type assigned to the person in the source system.
+        data_tests:
+          - not_null
+
+      - name: name_style
+        description: Source indicator controlling the display style of the person's name.
+
+      - name: title
+        description: Person title, when available.
+
+      - name: first_name
+        description: Person first name.
+        data_tests:
+          - not_null
+
+      - name: middle_name
+        description: Person middle name, when available.
+
+      - name: last_name
+        description: Person last name.
+        data_tests:
+          - not_null
+
+      - name: suffix
+        description: Person name suffix, when available.
+
+      - name: email_promotion
+        description: Source value indicating the person's email promotion preference.
+
+      - name: additional_contact_info
+        description: Additional contact information from the source system.
+
+      - name: demographics
+        description: Demographic information from the source system.
+
+      - name: row_guid
+        description: Source system row GUID.
+
+      - name: modified_date
+        description: Timestamp of the last modification in the source system.
+
+
+  - name: stg_person_state_province
+    description: >
+      Staging model for states and provinces, including country or region,
+      territory, codes, names, and source metadata.
+    columns:
+      - name: state_province_id
+        description: Primary identifier for the state or province.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: state_province_code
+        description: Code identifying the state or province.
+        data_tests:
+          - not_null
+
+      - name: country_region_code
+        description: Country or region code associated with the state or province.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_person_country_region')
+                field: country_region_code
+
+      - name: is_only_state_province_flag
+        description: Source flag indicating whether the record is the only state or province for its country or region.
+
+      - name: state_province_name
+        description: Name of the state or province.
+        data_tests:
+          - not_null
+
+      - name: territory_id
+        description: Identifier of the sales territory associated with the state or province.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_sales_territory')
+                field: territory_id
+
+      - name: row_guid
+        description: Source system row GUID.
+
+      - name: modified_date
+        description: Timestamp of the last modification in the source system.

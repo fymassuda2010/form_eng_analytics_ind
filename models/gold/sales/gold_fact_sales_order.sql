@@ -1,7 +1,7 @@
 with sales_order_header as (
 
     select *
-    from {{ ref('stg_sales_order_header') }}
+    from {{ ref('stg_sales__order_header') }}
 
 ),
 

@@ -2,7 +2,7 @@
 with credit_card as (
 
     select *
-    from {{ ref('stg_credit_card') }}
+    from {{ ref('stg_sales__credit_card') }}
 
 ),
 

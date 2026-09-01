@@ -64,3 +64,11 @@ sources:
           - name: salesorderdetailid
             tests:
               - not_null
+      
+      - name: sales_creditcard
+        description: "Raw credit card table from Adventure Works."
+        columns:
+          - name: creditcardid
+            tests:
+              - not_null
+              - unique

@@ -1,7 +1,7 @@
 with
-    address as (select * from {{ ref("stg_person_address") }}),
+    address as (select * from {{ ref("stg_person__address") }}),
 
-    state_province as (select * from {{ ref("stg_person_state_province") }}),
+    state_province as (select * from {{ ref("stg_person__state_province") }}),
 
     joined as (
 

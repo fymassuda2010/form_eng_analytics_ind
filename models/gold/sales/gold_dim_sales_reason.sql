@@ -1,5 +1,5 @@
 with
-    sales_reason as (select * from {{ ref("stg_sales_sales_reason") }}),
+    sales_reason as (select * from {{ ref("stg_sales__sales_reason") }}),
 
     final as (
 

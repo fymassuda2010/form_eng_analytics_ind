@@ -1,0 +1,87 @@
+version: 2
+
+models:
+
+  - name: int_customer
+    description: >
+      Intermediate customer model enriched with person, address, state/province,
+      and sales territory attributes. The expected grain is one row per customer_id.
+    columns:
+      - name: customer_id
+        description: Primary identifier for the customer and grain of this model.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: person_id
+        description: Identifier of the person associated with the customer.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('int_person')
+                field: business_entity_id
+
+      - name: store_id
+        description: Identifier of the store associated with the customer, when applicable.
+
+      - name: customer_territory_id
+        description: Identifier of the sales territory associated with the customer.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_sales_territory')
+                field: territory_id
+
+      - name: business_entity_id
+        description: Business entity identifier inherited from the person model.
+
+      - name: address_id
+        description: Identifier of the address associated with the person.
+
+      - name: address_type_id
+        description: Identifier describing the type of address association.
+
+      - name: state_province_id
+        description: Identifier of the state or province associated with the customer's address.
+
+      - name: person_type
+        description: Type assigned to the person in the source system.
+
+      - name: full_name
+        description: Full name of the person associated with the customer.
+
+      - name: email_promotion
+        description: Source value indicating the person's email promotion preference.
+
+      - name: additional_contact_info
+        description: Additional contact information associated with the person.
+
+      - name: address_line_1
+        description: First line of the customer's address.
+
+      - name: address_line_2
+        description: Second line of the customer's address, when available.
+
+      - name: city
+        description: City associated with the customer's address.
+
+      - name: postal_code
+        description: Postal code associated with the customer's address.
+
+      - name: customer_territory_name
+        description: Name of the sales territory associated with the customer.
+
+      - name: customer_territory_country_region_code
+        description: Country or region code associated with the customer's sales territory.
+
+      - name: customer_territory_group
+        description: Geographic group associated with the customer's sales territory.
+
+      - name: state_province_name
+        description: Name of the state or province associated with the customer's address.
+
+      - name: state_province_code
+        description: Code of the state or province associated with the customer's address.
+
+      - name: is_only_state_province_flag
+        description: Flag indicating whether the state or province is the only one for its country or region.
