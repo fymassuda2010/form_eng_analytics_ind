@@ -1,0 +1,49 @@
+version: 2
+
+models:
+  - name: int_client__addresses
+    description: >
+      Intermediate client address model enriched with state, province, country,
+      and sales territory attributes. Its grain is one row per address.
+    columns:
+      - name: address_id
+        description: Primary identifier for the address.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: address_line_1
+        description: First line of the street address.
+
+      - name: address_line_2
+        description: Second line of the street address, when available.
+
+      - name: city
+        description: City associated with the address.
+
+      - name: state_province_id
+        description: Identifier of the state or province associated with the address.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_person__state_provinces')
+                field: state_province_id
+
+      - name: postal_code
+        description: Postal code associated with the address.
+
+      - name: state_province_code
+        description: Code identifying the state or province.
+
+      - name: country_region_code
+        description: Country or region code associated with the state or province.
+
+      - name: country_region_name
+        description: Name of the country or region associated with the address.
+
+      - name: state_province_name
+        description: Name of the state or province.
+
+      - name: territory_id
+        description: Identifier of the sales territory associated with the state or province.

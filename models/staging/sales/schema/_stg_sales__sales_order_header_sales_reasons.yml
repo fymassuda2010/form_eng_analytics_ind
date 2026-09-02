@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: stg_sales__sales_order_header_sales_reasons
+    description: >
+      Staging bridge model linking sales orders to their sales reasons.
+      A sales order may be associated with more than one sales reason.
+    columns:
+      - name: sales_order_id
+        description: Identifier of the sales order.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_sales__order_headers')
+                field: sales_order_id
+
+      - name: sales_reason_id
+        description: Identifier of the sales reason associated with the order.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_sales__sales_reasons')
+                field: sales_reason_id
+
+      - name: modified_date
+        description: Timestamp of the last modification in the source system.

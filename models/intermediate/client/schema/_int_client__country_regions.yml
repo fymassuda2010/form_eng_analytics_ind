@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: int_client__country_regions
+    description: >
+      Intermediate country and region model that applies the fallback code for
+      Namibia while preserving the remaining source attributes.
+
+    columns:
+      - name: country_region_code
+        description: Standardized code identifying the country or region.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: country_region_name
+        description: Name of the country or region.
+        data_tests:
+          - not_null
+
+      - name: modified_date
+        description: Timestamp of the last modification in the source system.

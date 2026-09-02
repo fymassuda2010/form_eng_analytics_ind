@@ -1,0 +1,46 @@
+version: 2
+
+unit_tests:
+  - name: test_int_client__addresses_enriches_address
+    description: Validates enrichment of an address with state, country, and territory attributes.
+    model: int_client__addresses
+    given:
+      - input: ref('stg_person__addresses')
+        format: dict
+        rows:
+          - address_id: 1
+            address_line_1: 1970 Napa Ct.
+            address_line_2: null
+            city: Bothell
+            state_province_id: 79
+            postal_code: "98011"
+
+      - input: ref('stg_person__state_provinces')
+        format: dict
+        rows:
+          - state_province_id: 79
+            state_province_code: WA
+            country_region_code: US
+            state_province_name: Washington
+            territory_id: 1
+
+      - input: ref('int_client__country_regions')
+        format: dict
+        rows:
+          - country_region_code: US
+            country_region_name: United States
+
+    expect:
+      format: dict
+      rows:
+        - address_id: 1
+          address_line_1: 1970 Napa Ct.
+          address_line_2: null
+          city: Bothell
+          state_province_id: 79
+          postal_code: "98011"
+          state_province_code: WA
+          country_region_code: US
+          country_region_name: United States
+          state_province_name: Washington
+          territory_id: 1

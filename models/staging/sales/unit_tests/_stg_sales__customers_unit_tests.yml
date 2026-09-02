@@ -1,0 +1,23 @@
+version: 2
+
+unit_tests:
+  - name: test_stg_sales__customers_renames_and_casts
+    description: Validates column renaming and integer casts in stg_sales__customers.
+    model: stg_sales__customers
+    given:
+      - input: source('adventure_works', 'sales_customer')
+        format: dict
+        rows:
+          - customerid: 11000
+            personid: "13531"
+            storeid: "296"
+            territoryid: 9
+            modifieddate: "2014-10-10 12:00:00"
+    expect:
+      format: dict
+      rows:
+        - customer_id: 11000
+          person_id: 13531
+          store_id: 296
+          territory_id: 9
+          modified_date: "2014-10-10 12:00:00"

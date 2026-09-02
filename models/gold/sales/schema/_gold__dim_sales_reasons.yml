@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: gold__dim_sales_reasons
+    description: >
+      Sales reason dimension containing the reason names and categories. Its
+      grain is one row per sales reason.
+    columns:
+      - name: sales_reason_id
+        description: Primary identifier for the sales reason.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: sales_reason_name
+        description: Name of the sales reason.
+        data_tests:
+          - not_null
+
+      - name: sales_reason_type
+        description: Category of the sales reason.

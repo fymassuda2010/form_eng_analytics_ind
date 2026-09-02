@@ -1,0 +1,59 @@
+version: 2
+
+models:
+  - name: stg_person__persons
+    description: >
+      Staging model for people registered in Adventure Works, including names,
+      person type, promotion preferences, contact information, and source metadata.
+    columns:
+      - name: business_entity_id
+        description: Primary identifier for the person and corresponding business entity.
+        data_tests:
+          - not_null
+          - unique
+          - relationships:
+              arguments:
+                to: source('adventure_works', 'person_businessentity')
+                field: businessentityid
+
+      - name: person_type
+        description: Type assigned to the person in the source system.
+        data_tests:
+          - not_null
+
+      - name: name_style
+        description: Source indicator controlling the display style of the person's name.
+
+      - name: title
+        description: Person title, when available.
+
+      - name: first_name
+        description: Person first name.
+        data_tests:
+          - not_null
+
+      - name: middle_name
+        description: Person middle name, when available.
+
+      - name: last_name
+        description: Person last name.
+        data_tests:
+          - not_null
+
+      - name: suffix
+        description: Person name suffix, when available.
+
+      - name: email_promotion
+        description: Source value indicating the person's email promotion preference.
+
+      - name: additional_contact_info
+        description: Additional contact information from the source system.
+
+      - name: demographics
+        description: Demographic information from the source system.
+
+      - name: row_guid
+        description: Source system row GUID.
+
+      - name: modified_date
+        description: Timestamp of the last modification in the source system.

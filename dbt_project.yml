@@ -37,7 +37,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 models:
   my_new_project:
-    +schema: dbt_fabio_fea
+    #+schema: dbt_fabio_fea
 
     staging:
       +materialized: view

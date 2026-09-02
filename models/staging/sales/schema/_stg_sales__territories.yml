@@ -1,0 +1,39 @@
+version: 2
+
+models:
+  - name: stg_sales__territories
+    description: >
+      Staging model for sales territories, including geographic attributes
+      and year-to-date and prior-year sales and cost amounts.
+    columns:
+      - name: territory_id
+        description: Primary identifier for the sales territory.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: territory_name
+        description: Name of the sales territory.
+        data_tests:
+          - not_null
+
+      - name: country_region_code
+        description: Country or region code associated with the territory.
+
+      - name: territory_group
+        description: Geographic group to which the territory belongs.
+
+      - name: sales_ytd_amount
+        description: Year-to-date sales amount for the territory.
+
+      - name: sales_last_year_amount
+        description: Sales amount for the territory in the previous year.
+
+      - name: cost_ytd_amount
+        description: Year-to-date cost amount for the territory.
+
+      - name: cost_last_year_amount
+        description: Cost amount for the territory in the previous year.
+
+      - name: modified_date
+        description: Timestamp of the last modification in the source system.

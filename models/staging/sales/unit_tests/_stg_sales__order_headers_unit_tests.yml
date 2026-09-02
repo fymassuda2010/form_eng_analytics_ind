@@ -1,0 +1,57 @@
+version: 2
+
+unit_tests:
+  - name: test_stg_sales__order_headers_renames_and_date_casts
+    description: Validates order header renaming, foreign keys, metrics, and date casts.
+    model: stg_sales__order_headers
+    given:
+      - input: source('adventure_works', 'sales_salesorderheader')
+        format: dict
+        rows:
+          - salesorderid: 43659
+            revisionnumber: 8
+            orderdate: "2011-05-31 00:00:00"
+            duedate: "2011-06-12 00:00:00"
+            shipdate: "2011-06-07 00:00:00"
+            status: 5
+            onlineorderflag: false
+            purchaseordernumber: "PO522145787"
+            accountnumber: "10-4020-000676"
+            customerid: 29825
+            salespersonid: 279
+            territoryid: 5
+            billtoaddressid: 985
+            shiptoaddressid: 985
+            shipmethodid: 5
+            creditcardid: 16281
+            currencyrateid: 4
+            creditcardapprovalcode: "105041Vi84182"
+            subtotal: 20565.6206
+            taxamt: 1971.5149
+            freight: 616.0984
+            totaldue: 23153.2339
+    expect:
+      format: dict
+      rows:
+        - sales_order_id: 43659
+          revision_number: 8
+          order_date: "2011-05-31"
+          due_date: "2011-06-12"
+          ship_date: "2011-06-07"
+          sales_order_status: 5
+          online_order_flag: false
+          purchase_order_number: "PO522145787"
+          account_number: "10-4020-000676"
+          customer_id: 29825
+          sales_person_id: 279
+          territory_id: 5
+          bill_to_address_id: 985
+          ship_to_address_id: 985
+          ship_method_id: 5
+          credit_card_id: 16281
+          currency_rate_id: 4
+          credit_card_approval_code: "105041Vi84182"
+          subtotal_amount: 20565.6206
+          tax_amount: 1971.5149
+          freight_amount: 616.0984
+          total_due_amount: 23153.2339

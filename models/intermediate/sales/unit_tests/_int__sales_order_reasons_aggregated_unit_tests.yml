@@ -1,0 +1,45 @@
+version: 2
+
+unit_tests:
+  - name: test_int__sales_order_reasons_aggregated_groups_reasons_by_order
+    description: >
+      Validates that sales reasons are grouped by order and that duplicate
+      reasons do not increase the array contents or the distinct reason count.
+    model: int__sales_order_reasons_aggregated
+    given:
+      - input: ref('int__sales_order_reasons')
+        format: dict
+        rows:
+          - sales_order_id: 43697
+            sales_reason_id: 5
+            sales_reason_name: Promotion
+            sales_reason_type: Promotion
+          - sales_order_id: 43697
+            sales_reason_id: 2
+            sales_reason_name: Manufacturer
+            sales_reason_type: Other
+          - sales_order_id: 43697
+            sales_reason_id: 5
+            sales_reason_name: Promotion
+            sales_reason_type: Promotion
+          - sales_order_id: 43698
+            sales_reason_id: 1
+            sales_reason_name: Price
+            sales_reason_type: Marketing
+
+    expect:
+      format: sql
+      rows: |
+        select
+            43697 as sales_order_id,
+            array(2, 5) as sales_reason_ids,
+            array('Manufacturer', 'Promotion') as sales_reason_names,
+            array('Other', 'Promotion') as sales_reason_types,
+            2 as sales_reason_count
+        union all
+        select
+            43698 as sales_order_id,
+            array(1) as sales_reason_ids,
+            array('Price') as sales_reason_names,
+            array('Marketing') as sales_reason_types,
+            1 as sales_reason_count

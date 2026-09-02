@@ -1,0 +1,47 @@
+version: 2
+
+models:
+  - name: int__sales_order_reasons
+    description: >
+      Intermediate bridge model that associates sales orders with their sales
+      reasons and enriches each relationship with the reason name and type.
+      The grain is one row per sales_order_id and sales_reason_id combination.
+
+    data_tests:
+      - unique:
+          arguments:
+            column_name: >
+              concat(
+                cast(sales_order_id as string),
+                '-',
+                cast(sales_reason_id as string)
+              )
+
+    columns:
+      - name: sales_order_id
+        description: Identifier of the sales order associated with the reason.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_sales__order_headers')
+                field: sales_order_id
+
+      - name: sales_reason_id
+        description: Identifier of the reason associated with the sales order.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_sales__sales_reasons')
+                field: sales_reason_id
+
+      - name: sales_reason_name
+        description: Descriptive name of the sales reason.
+        data_tests:
+          - not_null
+
+      - name: sales_reason_type
+        description: Category used to group similar sales reasons.
+        data_tests:
+          - not_null

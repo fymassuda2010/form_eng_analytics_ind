@@ -1,0 +1,73 @@
+version: 2
+
+unit_tests:
+  - name: test_int__sales_order_details_joins_and_calculates_amounts
+    description: >
+      Validates the join between order details and headers, the monthly date
+      derivation, and gross, discount, and net amount calculations.
+    model: int__sales_order_details
+    given:
+      - input: ref('stg_sales__sales_order_details')
+        format: dict
+        rows:
+          - sales_order_detail_id_pk: 1
+            sales_order_id: 43659
+            product_id: 776
+            special_offer_id: 1
+            carrier_tracking_number: 4911-403C-98
+            order_qty: 2
+            unit_price: 100.0
+            unit_price_discount: 0.10
+
+      - input: ref('stg_sales__order_headers')
+        format: dict
+        rows:
+          - sales_order_id: 43659
+            customer_id: 29825
+            territory_id: 5
+            credit_card_id: 16281
+            bill_to_address_id: 985
+            ship_to_address_id: 985
+            ship_method_id: 5
+            currency_rate_id: 4
+            revision_number: 8
+            order_date: "2011-05-31"
+            due_date: "2011-06-12"
+            ship_date: "2011-06-07"
+            sales_order_status: 5
+            online_order_flag: false
+            purchase_order_number: PO522145787
+            account_number: 10-4020-000676
+            credit_card_approval_code: 105041Vi84182
+
+    expect:
+      format: dict
+      rows:
+        - sales_order_detail_id_pk: 1
+          sales_order_id: 43659
+          customer_id: 29825
+          territory_id: 5
+          credit_card_id: 16281
+          bill_to_address_id: 985
+          ship_to_address_id: 985
+          ship_method_id: 5
+          currency_rate_id: 4
+          product_id: 776
+          special_offer_id: 1
+          revision_number: 8
+          order_date: "2011-05-31"
+          order_month: "2011-05-01"
+          due_date: "2011-06-12"
+          ship_date: "2011-06-07"
+          sales_order_status: 5
+          online_order_flag: false
+          purchase_order_number: PO522145787
+          account_number: 10-4020-000676
+          credit_card_approval_code: 105041Vi84182
+          carrier_tracking_number: 4911-403C-98
+          order_qty: 2
+          unit_price: 100.0
+          unit_price_discount: 0.10
+          gross_amount: 200.0
+          discount_amount: 20.0
+          net_amount: 180.0

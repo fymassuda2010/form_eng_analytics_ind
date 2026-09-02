@@ -1,0 +1,45 @@
+version: 2
+
+models:
+  - name: int__sales_order_reasons_aggregated
+    description: >
+      Intermediate model that aggregates all sales reasons associated with an
+      order into sorted arrays of identifiers, names, and types. The grain is
+      one row per sales_order_id.
+
+    columns:
+      - name: sales_order_id
+        description: Unique identifier of the sales order and grain of the model.
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_sales__order_headers')
+                field: sales_order_id
+
+      - name: sales_reason_ids
+        description: >
+          Sorted array containing the distinct sales reason identifiers
+          associated with the order.
+        data_tests:
+          - not_null
+
+      - name: sales_reason_names
+        description: >
+          Sorted array containing the distinct sales reason names associated
+          with the order.
+        data_tests:
+          - not_null
+
+      - name: sales_reason_types
+        description: >
+          Sorted array containing the distinct sales reason types associated
+          with the order.
+        data_tests:
+          - not_null
+
+      - name: sales_reason_count
+        description: Number of distinct sales reasons associated with the order.
+        data_tests:
+          - not_null

@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: stg_sales__sales_reasons
+    description: >
+      Staging model containing the available sales reasons and their respective types.
+    columns:
+      - name: sales_reason_id
+        description: Primary identifier for the sales reason.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: sales_reason_name
+        description: Name of the sales reason.
+        data_tests:
+          - not_null
+
+      - name: sales_reason_type
+        description: Type or category of the sales reason.
+
+      - name: modified_date
+        description: Timestamp of the last modification in the source system.

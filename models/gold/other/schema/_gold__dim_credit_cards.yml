@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: gold__dim_credit_cards
+    description: >
+      Credit card dimension containing card type, number, and expiration
+      attributes. Its grain is one row per credit card.
+    columns:
+      - name: credit_card_id
+        description: Primary identifier for the credit card.
+        data_tests:
+          - not_null
+          - unique
+      - name: card_type
+        description: Type of credit card.
+      - name: card_number
+        description: Credit card number recorded in the source system.
+      - name: exp_month
+        description: Expiration month of the credit card.
+      - name: exp_year
+        description: Expiration year of the credit card.
