@@ -1,0 +1,96 @@
+version: 2
+
+unit_tests:
+  - name: test_mart__sales_order_details_enriched_joins_dimensions
+    description: >
+      Validates that an order item is enriched with product, card, sales reason,
+      date, and delivery location attributes without changing its grain or metrics.
+    model: mart__sales_order_details_enriched
+    given:
+      - input: ref('gold__fact_sales_order_details')
+        format: dict
+        rows:
+          - sales_order_detail_id_pk: 1
+            sales_order_id: 43659
+            customer_id: 29825
+            credit_card_id: 16281
+            ship_to_address_id: 985
+            product_id: 776
+            order_date: '2011-05-31'
+            order_month: '2011-05-01'
+            sales_order_status: 5
+            order_qty: 2
+            gross_amount: 200.00
+            discount_amount: 20.00
+            net_amount: 180.00
+
+      - input: ref('gold__dim_credit_cards')
+        format: dict
+        rows:
+          - credit_card_id: 16281
+            card_type: Vista
+
+      - input: ref('gold__dim_customers')
+        format: dict
+        rows:
+          - customer_id: 29825
+            person_id: 293
+            store_id: null
+
+      - input: ref('gold__dim_sales_reasons_by_order_id')
+        format: sql
+        rows: |
+          select
+              43659 as sales_order_id,
+              array(5) as sales_reason_ids,
+              array('Promotion') as sales_reason_names,
+              array('Promotion') as sales_reason_types,
+              1 as sales_reason_count
+
+      - input: ref('gold__dim_delivery_addresses')
+        format: dict
+        rows:
+          - address_id: 985
+            city: Seattle
+            state_province_code: WA
+            state_province_name: Washington
+            country_region_code: US
+            country_region_name: United States
+
+      - input: ref('gold__dim_products')
+        format: dict
+        rows:
+          - product_id: 776
+            product_name: Mountain-100 Black, 42
+            product_number: BK-M82B-42
+
+    expect:
+      format: sql
+      rows: |
+        select
+            1 as sales_order_detail_id_pk,
+            43659 as sales_order_id,
+            cast('2011-05-31' as date) as order_date,
+            cast('2011-05-01' as date) as order_month,
+            2011 as order_year,
+            29825 as customer_id,
+            293 as person_id,
+            cast(null as int) as store_id,
+            776 as product_id,
+            'Mountain-100 Black, 42' as product_name,
+            'BK-M82B-42' as product_number,
+            'Vista' as card_type,
+            5 as sales_order_status,
+            array(5) as sales_reason_ids,
+            array('Promotion') as sales_reason_names,
+            array('Promotion') as sales_reason_types,
+            1 as sales_reason_count,
+            'Seattle' as delivery_city,
+            'WA' as delivery_state_code,
+            'Washington' as delivery_state_name,
+            'US' as delivery_country_code,
+            'United States' as delivery_country_name,
+            2 as order_qty,
+            200.00 as gross_amount,
+            20.00 as discount_amount,
+            180.00 as net_amount

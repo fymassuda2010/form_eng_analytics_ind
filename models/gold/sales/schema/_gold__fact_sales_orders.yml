@@ -1,0 +1,85 @@
+version: 2
+
+models:
+  - name: gold__fact_sales_orders
+    description: >
+      Order-level sales fact containing dates, dimensional identifiers, and
+      financial metrics. Its grain is one row per sales order.
+    columns:
+      - name: sales_order_id
+        description: Primary identifier for the sales order.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: revision_number
+        description: Revision number of the sales order.
+
+      - name: order_date
+        description: Date on which the order was created.
+        data_tests:
+          - not_null
+
+      - name: due_date
+        description: Date on which the order was due.
+
+      - name: ship_date
+        description: Date on which the order was shipped.
+
+      - name: order_month
+        description: First day of the month in which the order was created.
+        data_tests:
+          - not_null
+
+      - name: sales_order_status
+        description: Status code of the sales order.
+
+      - name: online_order_flag
+        description: Indicates whether the order was placed online.
+
+      - name: purchase_order_number
+        description: Purchase order number associated with the sale.
+
+      - name: account_number
+        description: Account number associated with the sales order.
+
+      - name: customer_id
+        description: Identifier of the customer who placed the order.
+        data_tests:
+          - not_null
+
+      - name: sales_person_id
+        description: Identifier of the salesperson associated with the order.
+
+      - name: territory_id
+        description: Identifier of the sales territory associated with the order.
+
+      - name: bill_to_address_id
+        description: Identifier of the billing address.
+
+      - name: ship_to_address_id
+        description: Identifier of the delivery address.
+
+      - name: ship_method_id
+        description: Identifier of the shipping method.
+
+      - name: credit_card_id
+        description: Identifier of the credit card used for the order.
+
+      - name: currency_rate_id
+        description: Identifier of the currency exchange rate.
+
+      - name: credit_card_approval_code
+        description: Approval code returned for the credit card transaction.
+
+      - name: subtotal_amount
+        description: Order subtotal before tax and freight.
+
+      - name: tax_amount
+        description: Tax amount charged on the order.
+
+      - name: freight_amount
+        description: Freight amount charged on the order.
+
+      - name: total_due_amount
+        description: Total amount due for the order.

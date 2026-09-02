@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: stg_sales__credit_cards
+    description: >
+      Staging model for Adventure Works credit cards. Renames source columns
+      and standardizes the credit card identifier.
+    columns:
+      - name: credit_card_id
+        description: Primary identifier for the credit card.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: card_type
+        description: Type of credit card.
+
+      - name: card_number
+        description: Credit card number recorded in the source system.
+
+      - name: exp_month
+        description: Expiration month of the credit card.
+
+      - name: exp_year
+        description: Expiration year of the credit card.
+
+      - name: modified_date
+        description: Timestamp of the last modification in the source system.

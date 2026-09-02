@@ -1,0 +1,49 @@
+version: 2
+
+models:
+  - name: stg_sales__sales_order_details
+    description: >
+      Staging model for sales order line items. Contains product, quantity,
+      price, discount, and tracking information for each sales order detail row.
+    columns:
+      - name: sales_order_detail_id_pk
+        description: Primary identifier for the sales order detail row.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: sales_order_id
+        description: Identifier of the parent sales order.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_sales__order_headers')
+                field: sales_order_id
+
+      - name: carrier_tracking_number
+        description: Carrier tracking number associated with the order item.
+
+      - name: order_qty
+        description: Quantity ordered for the product.
+        data_tests:
+          - not_null
+
+      - name: product_id
+        description: Identifier of the product sold.
+        data_tests:
+          - not_null
+
+      - name: special_offer_id
+        description: Identifier of the special offer applied to the order item.
+
+      - name: unit_price
+        description: Unit price of the product at the time of sale.
+        data_tests:
+          - not_null
+
+      - name: unit_price_discount
+        description: Discount percentage applied to the unit price.
+
+      - name: modified_date
+        description: Timestamp of the last modification in the source system.

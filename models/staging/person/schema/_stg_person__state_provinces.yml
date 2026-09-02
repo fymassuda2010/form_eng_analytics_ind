@@ -1,0 +1,49 @@
+version: 2
+
+models:
+  - name: stg_person__state_provinces
+    description: >
+      Staging model for states and provinces, including country or region,
+      territory, codes, names, and source metadata.
+    columns:
+      - name: state_province_id
+        description: Primary identifier for the state or province.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: state_province_code
+        description: Code identifying the state or province.
+        data_tests:
+          - not_null
+
+      - name: country_region_code
+        description: Country or region code associated with the state or province.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_person__country_regions')
+                field: country_region_code
+
+      - name: is_only_state_province_flag
+        description: Source flag indicating whether the record is the only state or province for its country.
+
+      - name: state_province_name
+        description: Name of the state or province.
+        data_tests:
+          - not_null
+
+      - name: territory_id
+        description: Identifier of the sales territory associated with the state or province.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_sales__territories')
+                field: territory_id
+
+      - name: row_guid
+        description: Source system row GUID.
+
+      - name: modified_date
+        description: Timestamp of the last modification in the source system.

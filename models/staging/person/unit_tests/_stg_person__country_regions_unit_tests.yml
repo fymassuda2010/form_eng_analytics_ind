@@ -1,0 +1,25 @@
+version: 2
+
+unit_tests:
+  - name: test_stg_person__country_regions_renames_source_columns
+    description: Validates column renaming while preserving source values.
+    model: stg_person__country_regions
+    given:
+      - input: source('adventure_works', 'person_countryregion')
+        format: dict
+        rows:
+          - countryregioncode: US
+            name: United States
+            modifieddate: "2008-04-30 00:00:00"
+          - countryregioncode: null
+            name: Namibia
+            modifieddate: "2008-04-30 00:00:00"
+    expect:
+      format: dict
+      rows:
+        - country_region_code: US
+          country_region_name: United States
+          modified_date: "2008-04-30 00:00:00"
+        - country_region_code: null
+          country_region_name: Namibia
+          modified_date: "2008-04-30 00:00:00"

@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name: int_client__persons
+    description: >
+      Intermediate client person model containing customer-facing person
+      attributes and a standardized full name. Its grain is one row per person.
+    columns:
+      - name: business_entity_id
+        description: Primary identifier for the person.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: person_type
+        description: Type assigned to the person in the source system.
+
+      - name: first_name
+        description: Person first name.
+        data_tests:
+          - not_null
+
+      - name: middle_name
+        description: Person middle name, when available.
+
+      - name: last_name
+        description: Person last name.
+        data_tests:
+          - not_null
+
+      - name: full_name
+        description: Full name composed from first, middle, and last names.
+        data_tests:
+          - not_null
+
+      - name: email_promotion
+        description: Source value indicating the person's email promotion preference.
+
+      - name: modified_date
+        description: Timestamp of the last modification in the source system.

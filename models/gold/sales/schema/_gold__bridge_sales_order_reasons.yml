@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: gold__bridge_sales_order_reasons
+    description: >
+      Bridge table associating sales orders with their sales reasons. Its grain
+      is one row per combination of sales order and sales reason.
+    columns:
+      - name: sales_order_id
+        description: Identifier of the sales order.
+        data_tests:
+          - not_null
+
+      - name: sales_reason_id
+        description: Identifier of the sales reason associated with the order.
+        data_tests:
+          - not_null
+
+      - name: sales_reason_name
+        description: Name of the sales reason.
+
+      - name: sales_reason_type
+        description: Category of the sales reason.

@@ -1,0 +1,27 @@
+version: 2
+
+unit_tests:
+  - name: test_int__sales_order_reasons_joins_reason_attributes
+    description: Validates the join between sales orders and their sales reasons.
+    model: int__sales_order_reasons
+    given:
+      - input: ref('stg_sales__sales_order_header_sales_reasons')
+        format: dict
+        rows:
+          - sales_order_id: 43697
+            sales_reason_id: 5
+
+      - input: ref('stg_sales__sales_reasons')
+        format: dict
+        rows:
+          - sales_reason_id: 5
+            sales_reason_name: Promotion
+            sales_reason_type: Promotion
+
+    expect:
+      format: dict
+      rows:
+        - sales_order_id: 43697
+          sales_reason_id: 5
+          sales_reason_name: Promotion
+          sales_reason_type: Promotion

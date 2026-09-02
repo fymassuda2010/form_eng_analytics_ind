@@ -1,0 +1,43 @@
+version: 2
+
+models:
+  - name: gold__dim_delivery_addresses
+    description: >
+      Delivery address dimension enriched with state, country, and territory
+      attributes. Its grain is one row per address.
+    columns:
+      - name: address_id
+        description: Primary identifier for the address.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: address_line_1
+        description: First line of the street address.
+
+      - name: address_line_2
+        description: Second line of the street address, when available.
+
+      - name: city
+        description: City associated with the address.
+
+      - name: state_province_id
+        description: Identifier of the state or province.
+
+      - name: state_province_code
+        description: Code identifying the state or province.
+
+      - name: state_province_name
+        description: Name of the state or province.
+
+      - name: country_region_code
+        description: Country or region code associated with the address.
+
+      - name: country_region_name
+        description: Country or region name associated with the address.
+
+      - name: postal_code
+        description: Postal code associated with the address.
+
+      - name: territory_id
+        description: Identifier of the related sales territory.

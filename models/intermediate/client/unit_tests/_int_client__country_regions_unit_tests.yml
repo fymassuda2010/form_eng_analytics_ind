@@ -1,0 +1,27 @@
+version: 2
+
+unit_tests:
+  - name: test_int_client__country_regions_handles_namibia_code
+    description: >
+      Validates that Namibia receives the NA fallback code and that existing
+      country and region codes remain unchanged.
+    model: int_client__country_regions
+    given:
+      - input: ref('stg_person__country_regions')
+        format: dict
+        rows:
+          - country_region_code: US
+            country_region_name: United States
+            modified_date: "2008-04-30 00:00:00"
+          - country_region_code: null
+            country_region_name: Namibia
+            modified_date: "2008-04-30 00:00:00"
+    expect:
+      format: dict
+      rows:
+        - country_region_code: US
+          country_region_name: United States
+          modified_date: "2008-04-30 00:00:00"
+        - country_region_code: NA
+          country_region_name: Namibia
+          modified_date: "2008-04-30 00:00:00"

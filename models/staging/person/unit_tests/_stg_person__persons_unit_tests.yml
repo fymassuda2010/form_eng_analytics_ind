@@ -1,0 +1,39 @@
+version: 2
+
+unit_tests:
+  - name: test_stg_person__persons_renames
+    description: Validates person column renaming from the Adventure Works source.
+    model: stg_person__persons
+    given:
+      - input: source('adventure_works', 'person_person')
+        format: dict
+        rows:
+          - businessentityid: 1
+            persontype: EM
+            namestyle: false
+            title: null
+            firstname: Ken
+            middlename: J
+            lastname: Sanchez
+            suffix: null
+            emailpromotion: 0
+            additionalcontactinfo: null
+            demographics: null
+            rowguid: "92C4279F-1207-48A3-8448-4636514EB7E2"
+            modifieddate: "2009-01-07 00:00:00"
+    expect:
+      format: dict
+      rows:
+        - business_entity_id: 1
+          person_type: EM
+          name_style: false
+          title: null
+          first_name: Ken
+          middle_name: J
+          last_name: Sanchez
+          suffix: null
+          email_promotion: 0
+          additional_contact_info: null
+          demographics: null
+          row_guid: "92C4279F-1207-48A3-8448-4636514EB7E2"
+          modified_date: "2009-01-07 00:00:00"

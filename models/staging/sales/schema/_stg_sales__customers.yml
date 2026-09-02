@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: stg_sales__customers
+    description: >
+      Staging model for Adventure Works sales customers. Renames source columns
+      and standardizes customer-related identifiers.
+    columns:
+      - name: customer_id
+        description: Primary identifier for the customer.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: person_id
+        description: Identifier of the person associated with the customer.
+
+      - name: store_id
+        description: Identifier of the store associated with the customer.
+
+      - name: territory_id
+        description: Identifier of the sales territory associated with the customer.
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_sales__territories')
+                field: territory_id
+
+      - name: modified_date
+        description: Timestamp of the last modification in the source system.

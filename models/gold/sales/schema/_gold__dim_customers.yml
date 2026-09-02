@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: gold__dim_customers
+    description: >
+      Customer dimension containing the principal customer identifiers and
+      territory association. Its grain is one row per customer.
+    columns:
+      - name: customer_id
+        description: Primary identifier for the customer.
+        data_tests:
+          - not_null
+          - unique
+
+      - name: person_id
+        description: Identifier of the person associated with the customer.
+
+      - name: store_id
+        description: Identifier of the store associated with the customer.
+
+      - name: territory_id
+        description: Identifier of the customer's sales territory.
+
+      - name: modified_date
+        description: Timestamp of the last modification in the source system.

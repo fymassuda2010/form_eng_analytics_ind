@@ -1,0 +1,19 @@
+version: 2
+
+unit_tests:
+  - name: test_stg_sales__sales_order_header_sales_reasons_renames
+    description: Validates the sales-order-to-sales-reason bridge keys.
+    model: stg_sales__sales_order_header_sales_reasons
+    given:
+      - input: source('adventure_works', 'sales_salesorderheadersalesreason')
+        format: dict
+        rows:
+          - salesorderid: 43697
+            salesreasonid: 5
+            modifieddate: "2011-05-31 00:00:00"
+    expect:
+      format: dict
+      rows:
+        - sales_order_id: 43697
+          sales_reason_id: 5
+          modified_date: "2011-05-31 00:00:00"

@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: gold__dim_products
+    description: >
+      Product dimension containing the principal product identification
+      attributes. Its grain is one row per product.
+    columns:
+      - name: product_id
+        description: Primary identifier for the product.
+        data_tests:
+          - not_null
+          - unique
+      - name: product_name
+        description: Name of the product.
+        data_tests: [not_null]
+      - name: product_number
+        description: Business product number.
+        data_tests: [not_null]

@@ -1,0 +1,29 @@
+version: 2
+
+unit_tests:
+  - name: test_int_client__persons_builds_full_name
+    description: Validates selected person attributes and full name composition.
+    model: int_client__persons
+    given:
+      - input: ref('stg_person__persons')
+        format: dict
+        rows:
+          - business_entity_id: 1
+            person_type: EM
+            first_name: Ken
+            middle_name: J
+            last_name: Sanchez
+            email_promotion: 0
+            modified_date: "2009-01-07 00:00:00"
+
+    expect:
+      format: dict
+      rows:
+        - business_entity_id: 1
+          person_type: EM
+          first_name: Ken
+          middle_name: J
+          last_name: Sanchez
+          full_name: Ken J Sanchez
+          email_promotion: 0
+          modified_date: "2009-01-07 00:00:00"

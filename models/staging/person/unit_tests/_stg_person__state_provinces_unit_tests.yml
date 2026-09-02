@@ -1,0 +1,29 @@
+version: 2
+
+unit_tests:
+  - name: test_stg_person__state_provinces_renames
+    description: Validates state and province column renaming from the Adventure Works source.
+    model: stg_person__state_provinces
+    given:
+      - input: source('adventure_works', 'person_stateprovince')
+        format: dict
+        rows:
+          - stateprovinceid: 79
+            stateprovincecode: WA
+            countryregioncode: US
+            isonlystateprovinceflag: false
+            name: Washington
+            territoryid: 1
+            rowguid: "F6E02A46-C89D-4A4A-8B3B-2E2A4F06E2A1"
+            modifieddate: "2008-04-30 00:00:00"
+    expect:
+      format: dict
+      rows:
+        - state_province_id: 79
+          state_province_code: WA
+          country_region_code: US
+          is_only_state_province_flag: false
+          state_province_name: Washington
+          territory_id: 1
+          row_guid: "F6E02A46-C89D-4A4A-8B3B-2E2A4F06E2A1"
+          modified_date: "2008-04-30 00:00:00"

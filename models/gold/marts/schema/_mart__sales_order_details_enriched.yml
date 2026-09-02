@@ -1,0 +1,128 @@
+version: 2
+
+models:
+  - name: mart__sales_order_details_enriched
+    description: >
+      Enriched analytical mart at the sales order detail grain. Combines order
+      item metrics with product, card type, sales reasons, customer, status,
+      date, and delivery location attributes for flexible sales analysis.
+
+    columns:
+      - name: sales_order_detail_id_pk
+        description: Unique identifier of the sales order item and grain of the mart.
+        data_tests:
+          - unique
+          - not_null
+
+      - name: sales_order_id
+        description: Identifier of the sales order containing the item.
+        data_tests:
+          - not_null
+
+      - name: order_date
+        description: Date on which the sales order was created.
+        data_tests:
+          - not_null
+
+      - name: order_month
+        description: First day of the month in which the order was created.
+        data_tests:
+          - not_null
+
+      - name: order_year
+        description: Calendar year in which the order was created.
+        data_tests:
+          - not_null
+
+      - name: customer_id
+        description: Identifier of the customer who placed the order.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('gold__dim_customers')
+                field: customer_id
+
+      - name: person_id
+        description: >
+          Identifier of the person associated with the customer, when the sale
+          has an individual customer or person contact.
+
+      - name: store_id
+        description: >
+          Identifier of the store associated with the customer, when the sale
+          was made to a store.
+
+      - name: product_id
+        description: Identifier of the product purchased in the order item.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('gold__dim_products')
+                field: product_id
+
+      - name: product_name
+        description: Descriptive name of the purchased product.
+
+      - name: product_number
+        description: Business product number assigned to the purchased product.
+
+      - name: card_type
+        description: Type of credit card used for the order, when applicable.
+
+      - name: sales_order_status
+        description: Numeric status code of the sales order.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [1, 2, 3, 4, 5, 6]
+                quote: false
+
+      - name: sales_reason_ids
+        description: Sorted array of distinct sales reason identifiers associated with the order.
+
+      - name: sales_reason_names
+        description: Sorted array of distinct sales reason names associated with the order.
+
+      - name: sales_reason_types
+        description: Sorted array of distinct sales reason types associated with the order.
+
+      - name: sales_reason_count
+        description: Number of distinct sales reasons associated with the order.
+
+      - name: delivery_city
+        description: City to which the order was delivered.
+
+      - name: delivery_state_code
+        description: Code of the state or province to which the order was delivered.
+
+      - name: delivery_state_name
+        description: Name of the state or province to which the order was delivered.
+
+      - name: delivery_country_code
+        description: Code of the country to which the order was delivered.
+
+      - name: delivery_country_name
+        description: Name of the country to which the order was delivered.
+
+      - name: order_qty
+        description: Quantity of product purchased in the order item.
+        data_tests:
+          - not_null
+
+      - name: gross_amount
+        description: Gross item amount before product discounts.
+        data_tests:
+          - not_null
+
+      - name: discount_amount
+        description: Product discount amount applied to the order item.
+        data_tests:
+          - not_null
+
+      - name: net_amount
+        description: Net item amount after deducting product discounts.
+        data_tests:
+          - not_null
