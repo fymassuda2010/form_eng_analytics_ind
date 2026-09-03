@@ -117,28 +117,49 @@ final as (
 
     select
         -- primary key / grain
-        orders.sales_order_detail_id_pk,
+        cast(orders.sales_order_detail_id_pk as string) as sales_order_detail_id_pk,
 
         -- degenerate dimension
-        orders.sales_order_id,
+        cast(orders.sales_order_id as string) as sales_order_id,
 
         -- foreign keys
-        orders.customer_id,
-        customer.person_id,
-        customer.store_id,
-        orders.product_id,
+        cast(orders.customer_id as string) as customer_id,
+        cast(customer.person_id as string) as person_id,
+        cast(customer.store_id as string) as store_id,
+        cast(orders.product_id as string) as product_id,
 
         -- dates
         orders.order_date,
         orders.order_month,
         year(orders.order_date) as order_year,
+        case month(orders.order_date)
+            when 1 then '01 - january'
+            when 2 then '02 - february'
+            when 3 then '03 - march'
+            when 4 then '04 - april'
+            when 5 then '05 - may'
+            when 6 then '06 - june'
+            when 7 then '07 - july'
+            when 8 then '08 - august'
+            when 9 then '09 - september'
+            when 10 then '10 - october'
+            when 11 then '11 - november'
+            when 12 then '12 - december'
+        end as month_desc,
 
         -- descriptive attributes
+        case
+            when customer.store_id is null then 'person'
+            else 'store'
+        end as final_customer,
         product.product_name,
         product.product_number,
         cards.card_type,
         orders.sales_order_status,
-        reasons.sales_reason_ids,
+        transform(
+            reasons.sales_reason_ids,
+            sales_reason_id -> cast(sales_reason_id as string)
+        ) as sales_reason_ids,
         reasons.sales_reason_names,
         reasons.sales_reason_types,
         reasons.sales_reason_count,

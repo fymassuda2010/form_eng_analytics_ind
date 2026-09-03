@@ -34,6 +34,11 @@ models:
         data_tests:
           - not_null
 
+      - name: month_desc
+        description: Order month represented by its two-digit number and English name, such as 09 - september.
+        data_tests:
+          - not_null
+
       - name: customer_id
         description: Identifier of the customer who placed the order.
         data_tests:
@@ -52,6 +57,14 @@ models:
         description: >
           Identifier of the store associated with the customer, when the sale
           was made to a store.
+
+      - name: final_customer
+        description: Classifies the sale as person or store according to the presence of store_id.
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['person', 'store']
 
       - name: product_id
         description: Identifier of the product purchased in the order item.
