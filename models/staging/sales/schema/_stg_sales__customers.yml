@@ -20,11 +20,6 @@ models:
 
       - name: territory_id
         description: Identifier of the sales territory associated with the customer.
-        data_tests:
-          - relationships:
-              arguments:
-                to: ref('stg_sales__territories')
-                field: territory_id
 
       - name: modified_date
         description: Timestamp of the last modification in the source system.

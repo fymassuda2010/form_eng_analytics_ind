@@ -1,3 +1,4 @@
+-- grain: one row per sales_reason_id
 with
     sales_reason as (select * from {{ ref("stg_sales__sales_reasons") }}),
 

@@ -28,7 +28,7 @@ unit_tests:
         format: dict
         rows:
           - credit_card_id: 16281
-            card_type: Vista
+            card_type: null
 
       - input: ref('gold__dim_customers')
         format: dict
@@ -36,6 +36,12 @@ unit_tests:
           - customer_id: 29825
             person_id: 293
             store_id: null
+            person_type: IN
+            first_name: Catherine
+            middle_name: R.
+            last_name: Abel
+            full_name: Catherine R. Abel
+            email_promotion: 1
 
       - input: ref('gold__dim_sales_reasons_by_order_id')
         format: sql
@@ -43,9 +49,9 @@ unit_tests:
           select
               43659 as sales_order_id,
               array(5) as sales_reason_ids,
-              array('Promotion') as sales_reason_names,
-              array('Promotion') as sales_reason_types,
-              1 as sales_reason_count
+              cast(null as array<string>) as sales_reason_names,
+              cast(null as array<string>) as sales_reason_types,
+              cast(null as int) as sales_reason_count
 
       - input: ref('gold__dim_delivery_addresses')
         format: dict
@@ -79,14 +85,20 @@ unit_tests:
             cast(null as string) as store_id,
             '776' as product_id,
             'person' as final_customer,
+            'IN' as person_type,
+            'Catherine' as first_name,
+            'R.' as middle_name,
+            'Abel' as last_name,
+            'Catherine R. Abel' as full_name,
+            1 as email_promotion,
             'Mountain-100 Black, 42' as product_name,
             'BK-M82B-42' as product_number,
-            'Vista' as card_type,
+            'No card' as card_type,
             5 as sales_order_status,
             array('5') as sales_reason_ids,
-            array('Promotion') as sales_reason_names,
-            array('Promotion') as sales_reason_types,
-            1 as sales_reason_count,
+            array('No sales reason') as sales_reason_names,
+            array('No sales reason') as sales_reason_types,
+            0 as sales_reason_count,
             'Seattle' as delivery_city,
             'WA' as delivery_state_code,
             'Washington' as delivery_state_name,

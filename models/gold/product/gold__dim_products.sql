@@ -1,3 +1,4 @@
+-- grain: one row per product_id
 with
     product as (select * from {{ ref("stg_product__products") }}),
 
