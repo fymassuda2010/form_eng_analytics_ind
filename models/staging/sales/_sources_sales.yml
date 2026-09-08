@@ -21,22 +21,6 @@ sources:
               - not_null
               - unique
 
-      - name: sales_salesterritory
-        description: "Raw sales territory table from Adventure Works."
-        columns:
-          - name: territoryid
-            tests:
-              - not_null
-              - unique
-
-      - name: sales_personcreditcard
-        description: "Raw bridge table between person and credit card."
-        columns:
-          - name: creditcardid
-            tests:
-              - not_null
-              - unique
-
       - name: sales_salesorderheadersalesreason
         description: "Raw bridge table between sales order header and sales reason."
         columns:

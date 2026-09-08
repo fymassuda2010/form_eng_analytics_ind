@@ -48,15 +48,3 @@ sources:
             tests:
               - unique
 
-      - name: person_businessentityaddress
-        description: "Raw bridge table between business entity and address."
-        columns:
-          - name: addressid
-            tests:
-              - not_null
-          - name: businessentityid
-            tests:
-              - not_null
-          - name: addresstypeid
-            tests:
-              - not_null

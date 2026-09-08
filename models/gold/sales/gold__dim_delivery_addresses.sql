@@ -1,3 +1,4 @@
+-- grain: one row per address_id
 with
     address as (
 

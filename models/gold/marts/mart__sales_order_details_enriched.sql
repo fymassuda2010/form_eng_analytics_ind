@@ -65,7 +65,13 @@ customer as (
     select
         customer_id,
         person_id,
-        store_id
+        store_id,
+        person_type,
+        first_name,
+        middle_name,
+        last_name,
+        full_name,
+        email_promotion
 
     from {{ ref("gold__dim_customers") }}
 
@@ -152,17 +158,29 @@ final as (
             when customer.store_id is null then 'person'
             else 'store'
         end as final_customer,
+        customer.person_type,
+        customer.first_name,
+        customer.middle_name,
+        customer.last_name,
+        customer.full_name,
+        customer.email_promotion,
         product.product_name,
         product.product_number,
-        cards.card_type,
+        coalesce(cards.card_type, 'No card') as card_type,
         orders.sales_order_status,
         transform(
             reasons.sales_reason_ids,
             sales_reason_id -> cast(sales_reason_id as string)
         ) as sales_reason_ids,
-        reasons.sales_reason_names,
-        reasons.sales_reason_types,
-        reasons.sales_reason_count,
+        coalesce(
+            reasons.sales_reason_names,
+            array('No sales reason')
+        ) as sales_reason_names,
+        coalesce(
+            reasons.sales_reason_types,
+            array('No sales reason')
+        ) as sales_reason_types,
+        coalesce(reasons.sales_reason_count, 0) as sales_reason_count,
         address.city as delivery_city,
         address.state_province_code as delivery_state_code,
         address.state_province_name as delivery_state_name,

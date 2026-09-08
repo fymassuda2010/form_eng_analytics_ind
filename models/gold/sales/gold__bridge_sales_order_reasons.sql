@@ -1,4 +1,5 @@
--- grain: one row per sales order and sales reason
+-- Bridges the many-to-many relationship between sales orders and sales reasons.
+-- Grain: one row per sales order and sales reason combination.
 with
     sales_order_reason as (select * from {{ ref("int__sales_order_reasons") }}),
 

@@ -1,3 +1,4 @@
+-- grain: one row per sales_order_id
 with sales_order_header as (
 
     select *
