@@ -1,7 +1,8 @@
-# Adventure Works Sales Analytics
+# Adventure Works Sales - Analytics Engineer Formation
 
 This dbt project transforms the Adventure Works transactional dataset into a
-tested analytics layer for sales reporting on Databricks.
+tested, documented, and business-ready analytics layer for consumption by BI
+tools and reporting applications.
 
 The project supports analysis of orders, purchased quantities, gross revenue,
 discounts, net transaction value, customers, products, card types, sales
@@ -88,8 +89,8 @@ levels without separate pre-aggregated marts:
 
 Sales reasons have a many-to-many relationship with orders. They are aggregated
 into arrays before being joined to the mart, preserving the order-detail grain
-and preventing duplicated quantities and financial metrics. A specific reason
-can be filtered in Databricks with:
+and preventing duplicated quantities and financial metrics. In SQL engines
+that support arrays, a specific reason can be filtered with:
 
 ```sql
 array_contains(sales_reason_names, 'Promotion')

@@ -1,0 +1,39 @@
+version: 2
+
+models:
+  - name: gold__dim_sales_reasons_by_order_id
+    description: >
+      Order-level sales reason dimension containing the distinct reason
+      identifiers, names, and types aggregated into sorted arrays. Its grain is
+      one row per sales order that has at least one associated sales reason.
+
+    columns:
+      - name: sales_order_id
+        description: Unique identifier of the sales order and grain of the model.
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('gold__fact_sales_orders')
+                field: sales_order_id
+
+      - name: sales_reason_ids
+        description: Sorted array of distinct sales reason identifiers associated with the order.
+        data_tests:
+          - not_null
+
+      - name: sales_reason_names
+        description: Sorted array of distinct sales reason names associated with the order.
+        data_tests:
+          - not_null
+
+      - name: sales_reason_types
+        description: Sorted array of distinct sales reason types associated with the order.
+        data_tests:
+          - not_null
+
+      - name: sales_reason_count
+        description: Number of distinct sales reasons associated with the order.
+        data_tests:
+          - not_null
